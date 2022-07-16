@@ -1,4 +1,4 @@
-package com.example.notes;
+package com.example.notes.cards;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,19 +7,19 @@ import java.util.Calendar;
 
 public class Note implements Parcelable {
 
-    private String noteName;
-    private String noteDescription;
-    private String noteDate;
+    private String mNoteName;
+    private String mNoteDescription;
+    private String mNoteDate;
 
     public Note(String noteName, String noteDescription) {
-        this.noteName = noteName;
-        this.noteDescription = noteDescription;
+        mNoteName = noteName;
+        mNoteDescription = noteDescription;
     }
 
     protected Note(Parcel in) {
-        noteName = in.readString();
-        noteDescription = in.readString();
-        noteDate = in.readString();
+        mNoteName = in.readString();
+        mNoteDescription = in.readString();
+        mNoteDate = in.readString();
     }
 
     @Override
@@ -47,11 +47,11 @@ public class Note implements Parcelable {
     };
 
     public String getNoteName() {
-        return noteName;
+        return mNoteName;
     }
 
     public String getNoteDescription() {
-        return noteDescription;
+        return mNoteDescription;
     }
 
     public String getNoteDate() {
@@ -60,9 +60,15 @@ public class Note implements Parcelable {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        noteDate = (new StringBuilder()
-                .append(day).append(".").append(month + 1).append(".")
-                .append(year)).toString();
-        return noteDate;
+        mNoteDate = day + "." + (month + 1) + "." + year;
+        return mNoteDate;
+    }
+
+    public void setNoteName(String noteName) {
+        mNoteName = noteName;
+    }
+
+    public void setNoteDescription(String noteDescription) {
+        mNoteDescription = noteDescription;
     }
 }

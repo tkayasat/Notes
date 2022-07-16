@@ -3,4 +3,14 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="mail_mail_ru">mail@mail.ru</string>
+    <string name="search">Search</string>
+    <string name="sort">Sort</string>
+    <string name="add_new_note">Add new note</string>
+    <string name="clear_list_note">Clear all note</string>
+    <string name="delete_note">Delete note</string>
+    <string name="edit_note">Edit note</string>
+    <string name="save">Save</string>
+    <string name="description_note">Description Note</string>
+    <string name="name_note">Name Note</string>
+    <string name="date_of_creation">Date of creation:\n</string>
 </resources>

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.notes.Note;
+import com.example.notes.cards.Note;
 import com.example.notes.R;
 
 public class FragmentNoteContent extends Fragment {
@@ -40,8 +40,8 @@ public class FragmentNoteContent extends Fragment {
         TextViewName.setText(note.getNoteName());
         TextView TextViewDescription = view.findViewById(R.id.note_description_tv);
         TextViewDescription.setText(note.getNoteDescription());
-        TextView TextViewDate = view.findViewById(R.id.note_date_tv);
-        TextViewDate.setText(note.getNoteDate());
+        TextView TextViewDate = view.findViewById(R.id.note_init_date_tv);
+        TextViewDate.setText(String.format("%s%s", TextViewDate.getText().toString(), note.getNoteDate()));
         return view;
     }
 }
