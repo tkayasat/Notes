@@ -10,22 +10,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        getSupportFragmentManager().
-                beginTransaction().
-                replace(R.id.notes, Notes.newInstance()).
-                commit();
-   }
-
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-
-        Fragment backStackFragment = (Fragment) getSupportFragmentManager()
-                .findFragmentById(R.id.cities_container);
-
-        if (backStackFragment != null && backStackFragment instanceof CoatOfArmsFragment) {
-
-            onBackPressed();
-        }*/
     }
+}
