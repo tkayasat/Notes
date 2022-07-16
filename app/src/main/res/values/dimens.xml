@@ -4,4 +4,5 @@
     <dimen name="cat_height">85dp</dimen>
     <dimen name="cat_margin_Top">20dp</dimen>
     <dimen name="cat_margin_Bottom">10dp</dimen>
+    <dimen name="textSize_item_list">30sp</dimen>
 </resources>

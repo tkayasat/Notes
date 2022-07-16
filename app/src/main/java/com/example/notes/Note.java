@@ -11,7 +11,7 @@ public class Note implements Parcelable {
     private String noteDescription;
     private String noteDate;
 
-    public Note(String noteName, String noteDescription){
+    public Note(String noteName, String noteDescription) {
         this.noteName = noteName;
         this.noteDescription = noteDescription;
     }
@@ -46,7 +46,6 @@ public class Note implements Parcelable {
         }
     };
 
-
     public String getNoteName() {
         return noteName;
     }
@@ -61,7 +60,7 @@ public class Note implements Parcelable {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        noteDate=(new StringBuilder()
+        noteDate = (new StringBuilder()
                 .append(day).append(".").append(month + 1).append(".")
                 .append(year)).toString();
         return noteDate;
