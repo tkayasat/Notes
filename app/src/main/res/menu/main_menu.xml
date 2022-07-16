@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_search"
+        android:orderInCategory="1"
+        android:title="search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_sort"
+        android:icon="@drawable/ic_sort"
+        android:orderInCategory="1"
+        android:title="sort"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_add_new"
+        android:icon="@drawable/ic_add_note"
+        android:orderInCategory="2"
+        android:title="add new note"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_delete_note"
+        android:icon="@drawable/ic_delete"
+        android:orderInCategory="2"
+        android:title="delete note"
+        app:showAsAction="ifRoom" />
+
+</menu>

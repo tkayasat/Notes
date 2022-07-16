@@ -13,11 +13,4 @@
         <item>description_3</item>
     </string-array>
 
-
-    <string-array name="notes_date">
-        <item>date_1</item>
-        <item>date_2</item>
-        <item>date_3</item>
-    </string-array>
-
 </resources>

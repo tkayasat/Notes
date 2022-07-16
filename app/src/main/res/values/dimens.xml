@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cat_width">82dp</dimen>
+    <dimen name="cat_height">85dp</dimen>
+    <dimen name="cat_margin_Top">20dp</dimen>
+    <dimen name="cat_margin_Bottom">10dp</dimen>
+</resources>
