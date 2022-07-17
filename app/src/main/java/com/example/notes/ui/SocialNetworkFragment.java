@@ -10,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,12 +20,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notes.MainActivity;
+import com.example.notes.MyBottomSheetDialogFragmentClearNotes;
+import com.example.notes.MyBottomSheetDialogFragmentDeleteNote;
 import com.example.notes.Navigation;
+import com.example.notes.OnDialogListener;
 import com.example.notes.R;
-import com.example.notes.data.CardData;
 import com.example.notes.data.CardsSource;
 import com.example.notes.data.CardsSourceFirebaseImpl;
-import com.example.notes.observer.Observer;
 import com.example.notes.observer.Publisher;
 
 import java.util.Objects;
@@ -39,12 +39,38 @@ public class SocialNetworkFragment extends Fragment {
     private RecyclerView recyclerView;
     private Navigation navigation;
     private Publisher publisher;
-
     private boolean moveToFirstPosition;
 
     public static SocialNetworkFragment newInstance() {
         return new SocialNetworkFragment();
     }
+
+    private final OnDialogListener dialogListenerClearNotes = new OnDialogListener() {
+        @Override
+        public void onDialogYes() {
+            data.clearCardData();
+            adapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onDialogCancel() {
+            onResume();
+        }
+    };
+
+    private final OnDialogListener dialogListenerDeleteNote = new OnDialogListener() {
+        @Override
+        public void onDialogYes() {
+            int deletePosition = adapter.getMenuPosition();
+            data.deleteCardData(deletePosition);
+            adapter.notifyItemRemoved(deletePosition);
+        }
+
+        @Override
+        public void onDialogCancel() {
+            onResume();
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,7 +86,7 @@ public class SocialNetworkFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        MainActivity activity = (MainActivity)context;
+        MainActivity activity = (MainActivity) context;
         navigation = activity.getNavigation();
         publisher = activity.getPublisher();
     }
@@ -83,35 +109,30 @@ public class SocialNetworkFragment extends Fragment {
     }
 
     @SuppressLint({"UseCompatLoadingForDrawables", "DefaultLocale"})
-    private void initRecyclerView(){
+    private void initRecyclerView() {
 
         recyclerView.setHasFixedSize(true);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-
         adapter = new SocialNetworkAdapter(this);
         recyclerView.setAdapter(adapter);
-
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(Objects.requireNonNull(getContext()),  LinearLayoutManager.VERTICAL);
+        DividerItemDecoration itemDecoration =
+                new DividerItemDecoration(Objects.requireNonNull(getContext()), LinearLayoutManager.VERTICAL);
         itemDecoration.setDrawable(getResources().getDrawable(R.drawable.decorate, null));
         recyclerView.addItemDecoration(itemDecoration);
-
         DefaultItemAnimator animator = new DefaultItemAnimator();
         animator.setAddDuration(MY_DEFAULT_DURATION);
         animator.setRemoveDuration(MY_DEFAULT_DURATION);
         recyclerView.setItemAnimator(animator);
-
-        if (moveToFirstPosition && data.size() > 0){
+        if (moveToFirstPosition && data.size() > 0) {
             recyclerView.scrollToPosition(0);
             moveToFirstPosition = false;
         }
-
-        adapter.SetOnItemClickListener((view, position) -> Toast.makeText(getContext(), String.format("Позиция - %d", position), Toast.LENGTH_SHORT).show());
     }
 
     @Override
-    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v,
+                                    @Nullable ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = requireActivity().getMenuInflater();
         inflater.inflate(R.menu.card_menu, menu);
@@ -128,17 +149,14 @@ public class SocialNetworkFragment extends Fragment {
     }
 
     @SuppressLint("NonConstantResourceId")
-    private boolean onItemSelected(int menuItemId){
-        switch (menuItemId){
+    private boolean onItemSelected(int menuItemId) {
+        switch (menuItemId) {
             case R.id.action_add:
                 navigation.addFragment(CardFragment.newInstance(), true);
-                publisher.subscribe(new Observer() {
-                    @Override
-                    public void updateCardData(CardData cardData) {
-                        data.addCardData(cardData);
-                        adapter.notifyItemInserted(data.size() - 1);
-                        moveToFirstPosition = true;
-                    }
+                publisher.subscribe(cardData -> {
+                    data.addCardData(cardData);
+                    adapter.notifyItemInserted(data.size() - 1);
+                    moveToFirstPosition = true;
                 });
                 return true;
             case R.id.action_update:
@@ -150,13 +168,20 @@ public class SocialNetworkFragment extends Fragment {
                 });
                 return true;
             case R.id.action_delete:
-                int deletePosition = adapter.getMenuPosition();
-                data.deleteCardData(deletePosition);
-                adapter.notifyItemRemoved(deletePosition);
+                MyBottomSheetDialogFragmentDeleteNote dialogFragment =
+                        MyBottomSheetDialogFragmentDeleteNote.newInstance();
+                dialogFragment.setOnDialogListener(dialogListenerDeleteNote);
+                assert getFragmentManager() != null;
+                dialogFragment.show(getFragmentManager(),
+                        "dialog_fragment_delete");
                 return true;
             case R.id.action_clear:
-                data.clearCardData();
-                adapter.notifyDataSetChanged();
+                MyBottomSheetDialogFragmentClearNotes dialogFragment2 =
+                        MyBottomSheetDialogFragmentClearNotes.newInstance();
+                dialogFragment2.setOnDialogListener(dialogListenerClearNotes);
+                assert getFragmentManager() != null;
+                dialogFragment2.show(getFragmentManager(),
+                        "dialog_fragment_clear");
                 return true;
         }
         return false;

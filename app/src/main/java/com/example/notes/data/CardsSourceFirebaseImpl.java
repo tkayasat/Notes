@@ -2,9 +2,7 @@ package com.example.notes.data;
 
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -17,20 +15,17 @@ import java.util.Objects;
 public class CardsSourceFirebaseImpl implements CardsSource {
 
     private static final String CARDS_COLLECTION = "cards";
-    private static final String TAG = "[CardsSourceFebaseImpl]";
-
+    private static final String TAG = "[CardsSourceFirebaseImpl]";
     private final FirebaseFirestore store = FirebaseFirestore.getInstance();
-
     private final CollectionReference collection = store.collection(CARDS_COLLECTION);
-
-    private List<CardData> cardsData = new ArrayList<CardData>();
+    private List<CardData> cardsData = new ArrayList<>();
 
     @Override
     public CardsSource init(final CardsSourceResponse cardsSourceResponse) {
         collection.orderBy(CardDataMapping.Fields.DATE, Query.Direction.DESCENDING).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        cardsData = new ArrayList<CardData>();
+                        cardsData = new ArrayList<>();
                         for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                             Map<String, Object> doc = document.getData();
                             String id = document.getId();
@@ -74,12 +69,8 @@ public class CardsSourceFirebaseImpl implements CardsSource {
 
     @Override
     public void addCardData(final CardData cardData) {
-        collection.add(CardDataMapping.toDocument(cardData)).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                cardData.setId(documentReference.getId());
-            }
-        });
+        collection.add(CardDataMapping.toDocument(cardData)).
+                addOnSuccessListener(documentReference -> cardData.setId(documentReference.getId()));
     }
 
     @Override

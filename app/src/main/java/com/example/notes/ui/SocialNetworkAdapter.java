@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,7 +24,6 @@ public class SocialNetworkAdapter
     private final static String TAG = "SocialNetworkAdapter";
     private final Fragment fragment;
     private CardsSource dataSource;
-    private OnItemClickListener itemClickListener;
     private int menuPosition;
 
     public SocialNetworkAdapter(Fragment fragment) {
@@ -55,16 +55,8 @@ public class SocialNetworkAdapter
         return dataSource.size();
     }
 
-    public void SetOnItemClickListener(OnItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
-    }
-
     public int getMenuPosition() {
         return menuPosition;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(View view, int position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -78,16 +70,9 @@ public class SocialNetworkAdapter
             title = itemView.findViewById(R.id.title);
             description = itemView.findViewById(R.id.description);
             date = itemView.findViewById(R.id.date);
-
+            CardView noteCV = itemView.findViewById(R.id.note_cardView);
             registerContextMenu(itemView);
-
-            title.setOnClickListener(v -> {
-                if (itemClickListener != null) {
-                    itemClickListener.onItemClick(v, getAdapterPosition());
-                }
-            });
-
-            title.setOnLongClickListener(v -> {
+            noteCV.setOnLongClickListener(v -> {
                 menuPosition = getLayoutPosition();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     itemView.showContextMenu(10, 10);

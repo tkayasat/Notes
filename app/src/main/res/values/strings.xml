@@ -15,4 +15,7 @@
     <string name="date_of_creation">Date of creation:\n</string>
     <string name="continue_">Continue…</string>
     <string name="sign_out">Sign out</string>
+    <string name="all_notes_will_be_deleted">This note will be deleted! \n Are you sure?</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
 </resources>
