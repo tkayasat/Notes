@@ -13,4 +13,6 @@
     <string name="description_note">Description Note</string>
     <string name="name_note">Name Note</string>
     <string name="date_of_creation">Date of creation:\n</string>
+    <string name="continue_">Continue…</string>
+    <string name="sign_out">Sign out</string>
 </resources>
